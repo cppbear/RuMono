@@ -1,0 +1,17 @@
+#! /usr/bin/env bash
+
+set -e
+
+#readonly DOCKER_USER="${USER:-root}"
+readonly DOCKER_USER="rumono"
+readonly PWD=`pwd`
+
+if [ -z "$1" ]; then
+    readonly CONTAINER_NAME="rumono"
+else
+    readonly CONTAINER_NAME="rumono-$1"
+fi
+
+docker run -it --privileged=true \
+    -v "${PWD}:/home/${DOCKER_USER}/RuMono" \
+    --name "${CONTAINER_NAME}" rumono:1.81

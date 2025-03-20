@@ -1,0 +1,28 @@
+#! /usr/bin/env bash
+
+set -e
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+PARENT_DIR=$(dirname "$SCRIPT_DIR")
+RUMONO_DIR="$PARENT_DIR/rumono"
+
+cargo install cargo-afl --version 0.15.15 --locked
+
+# Get host target
+host=$(rustc -vV | grep '^host:' | cut -d' ' -f2)
+# Download binary and install to $HOME/.cargo/bin
+curl --proto '=https' --tlsv1.2 -fsSL "https://github.com/taiki-e/cargo-llvm-cov/releases/latest/download/cargo-llvm-cov-$host.tar.gz" \
+  | tar xzf - -C "$HOME/.cargo/bin"
+
+if [ ! -d "$RUMONO_DIR" ]; then
+    echo "Error: $RUMONO_DIR does not exist"
+    exit 1
+fi
+
+if [[ ":$PATH:" == *":$RUMONO_DIR:"* ]]; then
+    echo "$RUMONO_DIR is already in PATH"
+else
+    echo "export PATH=\"$RUMONO_DIR:\$PATH\"" >> "$HOME/.zshrc"
+    echo "Added $RUMONO_DIR to PATH permanently in $HOME/.zshrc"
+    echo "Please run 'source ~/.zshrc' to apply changes immediately."
+fi
