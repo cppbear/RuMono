@@ -27,3 +27,5 @@ To build our tool, run `scripts/build-in-docker` at the project directory. This 
 3. Run `rumono build` to build cargo project for each fuzz drivers source code.
 4. Run `rumono fuzz [-l <LOOPCOUNT>] [-t <TIMEOUT>]` to start fuzzing all fuzz drivers. `-l <LOOPCOUNT>` is needed for collecting coverage information, and `-t <TIMEOUT>` is used to control the time of fuzz.
 5. (Optional) Run `rumono cov` to generate coverage report.
+
+**Note**: If the library is a workspace containing serveral crates, `rumono gen` should be run at the workspace root, while other subcommands of `rumono` should be run at the crate root.
