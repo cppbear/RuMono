@@ -13,5 +13,6 @@ else
 fi
 
 docker run -it --privileged=true \
+    --cpus 20 \
     -v "${PWD}:/home/${DOCKER_USER}/RuMono" \
     --name "${CONTAINER_NAME}" rumono:1.81
