@@ -126,12 +126,14 @@ def sub_cmd_build(argument):
 
 
 def sub_cmd_fuzz(argument):
-    loop_count = argument.loop_count
+    cmd = "afl_scripts -fuzz"
+    if argument.loop_count:
+        loop_count = argument.loop_count
+        cmd += f" -l {loop_count}"
     if argument.timeout:
         timeout = argument.timeout
-        run_process(f"afl_scripts -fuzz -l {loop_count} --timeout {timeout}", show=True)
-    else:
-        run_process(f"afl_scripts -fuzz -l {loop_count}", show=True)
+        cmd += f" --timeout {timeout}"
+    run_process(cmd, show=True)
 
 
 def sub_cmd_cov(argument):
