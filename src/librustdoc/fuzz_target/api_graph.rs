@@ -975,7 +975,10 @@ impl<'tcx> ApiGraph<'tcx> {
 
     pub(crate) fn default_generate_sequences(&mut self) {
         //BFS + backward search
-        self.generate_all_possoble_sequences(GraphTraverseAlgorithm::_BfsEndPoint);
+        // self.generate_all_possoble_sequences(GraphTraverseAlgorithm::_BfsEndPoint);
+        // self._try_to_cover_unvisited_nodes();
+
+        self.generate_all_possoble_sequences(GraphTraverseAlgorithm::_FastBfsEndPoint);
         self._try_to_cover_unvisited_nodes();
 
         // backward search
@@ -1119,7 +1122,7 @@ impl<'tcx> ApiGraph<'tcx> {
             print!("{}, ", *i);
         }
         print!("\n");
-        //println!("There are total {} sequences after bfs", self.api_sequences.len());
+        println!("There are total {} sequences after bfs", self.api_sequences.len());
         if !stop_at_end_function {
             std::process::exit(0);
         }
@@ -1280,7 +1283,7 @@ impl<'tcx> ApiGraph<'tcx> {
     }
 
     pub(crate) fn _try_to_cover_unvisited_nodes(&mut self) {
-        //println!("try to cover more nodes");
+        println!("try to cover more nodes");
         let mut apis_covered_by_reverse_search = 0;
         let mut unvisited_nodes = FxHashSet::default();
         let api_fun_number = self.api_functions.len();
